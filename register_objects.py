@@ -1,12 +1,10 @@
 import time
-from wait_utils import wait_xpath
-from wait_utils import fill_objects_details
+from dsp_utils import wait_xpath
+from dsp_utils import fill_objects_details
 from selenium.common.exceptions import StaleElementReferenceException
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-
-dspMigrate_xpath = '//span[text()="dspMigrate"]'
 elements_xpath = '//div[@id="navigationview"]//span[text()="Elements"]'
 objects_xpath = '//div[@id="navigationview"]//span[text()="Object"]'
 add_btn_xpath = '//div[@titletext="Objects"]//span[text()="Add"]'
@@ -15,14 +13,13 @@ back_btn_xpath = '/html/body/div[1]/div[2]/div[4]/div/div[1]/div[1]/span[1]'
 edit_btn_xpath = '//span[text()="Edit"]'
 
 def navigate_to_add_page(driver):
-    wait_xpath(driver, dspMigrate_xpath).click()
     wait_xpath(driver, elements_xpath).click()
     wait_xpath(driver, objects_xpath).click()
     
 def try_click_add(driver):
     attemtp = 0
     res = False
-    while attemtp < 3:
+    while attemtp < 5:
         try:
             wait_xpath(driver, add_btn_xpath).click()
             res = True
@@ -35,7 +32,10 @@ def try_click_add(driver):
 
 
 def add_one_object(driver, object_line):
-    try_click_add(driver) 
+    while 1:
+        add_ok = try_click_add(driver)
+        if add_ok:
+            break
     save = wait_xpath(driver, save_btn_xpath)
     fill_objects_details(driver, object_line[0], object_line[1], object_line[2])
     save.click()
