@@ -1,3 +1,4 @@
+import time
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
@@ -32,6 +33,7 @@ def navigate_to_migrate(driver):
 #   Then click the objects Icon
 def build_pa_xpath(identifier):
     return "//*[starts-with(text(), '{0}')]/parent::td/following-sibling::td[@positionindex='5']".format(identifier)
+
 
 def select_pa(driver, pa):
     wait_xpath(driver, build_pa_xpath(pa)).click()
